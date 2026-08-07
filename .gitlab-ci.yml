@@ -5,3 +5,5 @@ sync_clickup:
   stage: sync
   script:
     - echo "Branch is $CI_COMMIT_BRANCH"
+    - CU_ID=$(echo "$CI_COMMIT_BRANCH" | grep -oP 'CU-\d+')
+    - echo "Extracted ClickUp ticket ID is $CU_ID"

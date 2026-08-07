@@ -1,0 +1,7 @@
+stages:
+  - sync
+
+sync_clickup:
+  stage: sync
+  script:
+    - echo "Branch is $CI_COMMIT_BRANCH"

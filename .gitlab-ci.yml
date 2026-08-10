@@ -3,7 +3,9 @@ stages:
 
 sync_clickup:
   stage: sync
+  image: python:3.11
   script:
-    - echo "Branch is $CI_COMMIT_BRANCH"
+    - pip install -r requirements.txt
     - CU_ID=$(echo "$CI_COMMIT_BRANCH" | grep -oP 'CU-\d+')
     - echo "Extracted ClickUp ticket ID is $CU_ID"
+    - python sync_clickup.py "$CU_ID" "in progress"

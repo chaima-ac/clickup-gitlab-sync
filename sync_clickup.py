@@ -3,6 +3,7 @@ import sys
 import requests
 
 API_TOKEN = os.environ.get("CLICKUP_TOKEN")
+print(f"Token length: {len(API_TOKEN) if API_TOKEN else 'None'}")
 LIST_ID = "901220180810"
 
 def get_task_by_cu_id(cu_id):

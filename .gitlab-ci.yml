@@ -6,8 +6,8 @@ branch_push:
   image: python:3.11
   script:
     - pip install -r requirements.txt
-    - CU_ID=$(echo "$CI_COMMIT_BRANCH" | grep -oP 'CU-\d+')
-    - echo "Extracted ClickUp ticket ID is $CU_ID"
+    - CU_ID=$(echo "$CI_COMMIT_BRANCH" | grep -oP '[a-z0-9]{9}')
+    - echo "Extracted ClickUp task ID is $CU_ID"
     - python sync_clickup.py "$CU_ID" "in progress"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH != "main"'
@@ -17,8 +17,8 @@ mr_opened:
   image: python:3.11
   script:
     - pip install -r requirements.txt
-    - CU_ID=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" | grep -oP 'CU-\d+')
-    - echo "Extracted ClickUp ticket ID is $CU_ID"
+    - CU_ID=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" | grep -oP '[a-z0-9]{9}')
+    - echo "Extracted ClickUp task ID is $CU_ID"
     - python sync_clickup.py "$CU_ID" "review"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
@@ -28,8 +28,8 @@ merged_to_main:
   image: python:3.11
   script:
     - pip install -r requirements.txt
-    - CU_ID=$(echo "$CI_COMMIT_MESSAGE" | grep -oP 'CU-\d+' | head -1)
-    - echo "Extracted ClickUp ticket ID is $CU_ID"
+    - CU_ID=$(echo "$CI_COMMIT_MESSAGE" | grep -oP '[a-z0-9]{9}' | head -1)
+    - echo "Extracted ClickUp task ID is $CU_ID"
     - python sync_clickup.py "$CU_ID" "done"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"'
